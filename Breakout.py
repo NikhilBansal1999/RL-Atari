@@ -70,7 +70,7 @@ while i<10000:
 			train_X.append(frames[j])
 			train_Y.append(frames_target[j])
 	else:
-		indices=random.sample(range(0,len(frames)),99)
+		indices=sample(range(0,len(frames)),99)
 		for j in indices:
 			train_X.append(frames[j])
 			train_Y.append(frames_target[j])
