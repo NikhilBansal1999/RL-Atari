@@ -96,7 +96,7 @@ memory = deque(maxlen=100000)
 model = atari_model(env.action_space.n)
 
 state = env.reset()
-for i in range(20000):
+for i in range(100000):
     action = env.action_space.sample()
     new_state, reward, done, _ = env.step(action)
     memory.append([preprocess(state), action, preprocess(new_state), reward, done])
@@ -110,8 +110,11 @@ state = env.reset()
 
 while True:
     new_state, done = q_iteration(env, model, state, iteration, memory)
+    print("ITERATION COUNT:",iteration)
     if iteration % 1000 == 0:
-        print("Iteration: ", iteration)
+        fhand=open('RLagent_iter.txt','w')
+        fhand.write(str(iteration))
+        fhand.close()
         model.save_weights("RLagent_weights.h5")
     if done:
         state = env.reset()

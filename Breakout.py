@@ -6,6 +6,13 @@ import numpy
 from keras import optimizers
 import gym
 from random import *
+from keras import backend as K
+import tensorflow as tf
+
+with K.tf.device('/gpu:2'):
+	#config=tf.ConfigProto(intra_op_parallelism_threads=4,inter_op_parallelism_threads=4,allow_soft_placement=True,device_count={'GPU':1})
+	session=tf.Session()
+	K.set_session(session)
 
 max_replay_frames=10000
 frames=[]
@@ -36,7 +43,7 @@ epsilon=0.8
 i=0
 
 while i<10000:
-	env.render()
+	#env.render()
 	print(i)
 	epsilon=0.8*(10000-i)/10000
 	luck=random()
