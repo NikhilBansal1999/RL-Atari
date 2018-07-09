@@ -283,7 +283,7 @@ def train():
                 if episode_number % 100 == 0 or (episode_number + 1) == FLAGS.num_episode:
                 #if episode_number % 1 == 0 or (episode_number + 1) == FLAGS.num_episode:  # debug
                     now = datetime.utcnow().strftime("%Y%m%d%H%M%S")
-                    file_name = "pong_model_{}.h5".format(now)
+                    file_name = "pong_model.h5"
                     model_path = os.path.join(FLAGS.train_dir, file_name)
                     model.save(model_path)
 
