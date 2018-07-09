@@ -295,7 +295,9 @@ def train():
                 score_summary = tf.Summary(
                     value=[tf.Summary.Value(tag="score", simple_value=score)])
                 file_writer.add_summary(score_summary, global_step=episode_number)
-
+                f=open("log_deep.txt","w")
+                f.write(str(episode_number))
+                f.close()
                 episode_number += 1
 
     file_writer.close()
