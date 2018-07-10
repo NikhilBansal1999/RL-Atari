@@ -22,7 +22,7 @@ FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('train_dir', 'tf_train_pong',
                            """Directory where to write event logs and checkpoint. """)
 tf.app.flags.DEFINE_string('restore_file_path',
-                           './tf_train_pong/pong_model_20180610205843_36h_12193ep_sec_version.h5',
+                           './tf_train_pong/pong_model.h5',
                            """Path of the restore file """)
 tf.app.flags.DEFINE_integer('num_episode', 100000,
                             """number of epochs of the optimization loop.""")
@@ -334,7 +334,7 @@ def test():
         history = np.reshape([history], (1, 84, 84, 4))
 
         while not done:
-            env.render()
+            #env.render()
             time.sleep(0.01)
 
             # get action for the current history and go one step in environment
@@ -374,8 +374,8 @@ def test():
 
 
 def main(argv=None):
-    train()
-    #test()
+    #train()
+    test()
 
 
 if __name__ == '__main__':
