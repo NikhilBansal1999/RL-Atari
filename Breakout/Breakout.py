@@ -149,4 +149,4 @@ while num_episodes<100000:
         action_rep=np.eye(5)[np.array(action_did).reshape(-1)]
         target_values=action_rep*target[:,None]
 
-        model.fit([history, action_mask], target, epochs=1,batch_size=32, verbose=0)
+        model.fit([history, action_rep], target_values, epochs=1,batch_size=32, verbose=0)
