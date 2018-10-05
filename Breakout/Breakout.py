@@ -46,7 +46,7 @@ model.compile(loss=huber_loss,optimizer=optimize,metrics=['accuracy'])
 
 target_model=clone_model(model)
 target_model.set_weights(model.get_weights())
-experience=deque(maxlen=400000)
+experience=deque(maxlen=150000)
 update_target_model=10000
 
 def action_todo(curr_state):
@@ -70,8 +70,10 @@ observation,reward,done,info=env.step(1)
 observation=pre_process_image(observation)
 observation=np.stack((observation,observation,observation,observation),axis=2)
 frame_history=np.reshape(observation,(1,84,84,4))
-for i in range(400000):
+for i in range(150000):
     life=info['ale.lives']
+    if i%10000==0:
+        print(i,"done")
     action=action_todo(frame_history)
     observation,reward,done,info=env.step(action)
     observation=pre_process_image(observation)
@@ -93,8 +95,8 @@ while num_episodes<100000:
     if num_episodes%20==0 or num_episodes==1:
         model.save_weights('atari_model_pong.h5')
         fhand=open("episodes.txt","a")
-        fhand.write(num_episodes,"episodes completed\n")
-        fhand.write(steps_done,"steps_done\n")
+        fhand.write(str(num_episodes)+" episodes completed\n")
+        fhand.write(str(steps_done)+" steps_done\n")
         fhand.close()
     env.reset()
     life_left=5
@@ -109,6 +111,9 @@ while num_episodes<100000:
         steps_done=steps_done+1
         if steps_done%10000==0:
             target_model.set_weights(model.get_weights())
+            fhand=open("episodes.txt","a")
+            fhand.write("Target Model weights reset\n")
+            fhand.close()
 
         action=action_todo(frame_history)
         action_asked=action+1
