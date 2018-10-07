@@ -32,7 +32,7 @@ image_input=Input(shape=(84,84,4))
 action_done=Input(shape=(5,))
 
 Q_predictor =Lambda(lambda x: x / 255.0)(image_input)
-Q_predictor=Conv2D(16,(8,8),strides=(4,4),activation='relu')(image_input)
+Q_predictor=Conv2D(16,(8,8),strides=(4,4),activation='relu')(Q_predictor)
 Q_predictor=Conv2D(32,(4,4),strides=(2,2),activation='relu')(Q_predictor)
 Q_predictor=Flatten()(Q_predictor)
 Q_predictor=Dense(256,activation='relu')(Q_predictor)
@@ -46,7 +46,7 @@ model.compile(loss=huber_loss,optimizer=optimize,metrics=['accuracy'])
 
 target_model=clone_model(model)
 target_model.set_weights(model.get_weights())
-experience=deque(maxlen=150000)
+experience=deque(maxlen=200000)
 update_target_model=10000
 
 def action_todo(curr_state):
@@ -70,7 +70,7 @@ observation,reward,done,info=env.step(1)
 observation=pre_process_image(observation)
 observation=np.stack((observation,observation,observation,observation),axis=2)
 frame_history=np.reshape(observation,(1,84,84,4))
-for i in range(150000):
+for i in range(50000):
     life=info['ale.lives']
     if i%10000==0:
         print(i,"done")
